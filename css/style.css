@@ -111,8 +111,48 @@
   #main-content{display:none;}
   #main-content.show{display:block;}
 
+  /* ---------- Navbar ---------- */
+  .navbar{
+    position:sticky;
+    top:0;
+    z-index:40;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    padding:14px 10px;
+    background:rgba(11,61,145,0.55);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.2);
+  }
+  .navbar button{
+    border:none;
+    background:transparent;
+    color:var(--cream);
+    font-family:'Quicksand', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .navbar button:hover{
+    background:rgba(255,255,255,0.15);
+  }
+  .navbar button.active{
+    background:var(--center-yellow);
+    color:var(--sky-deep);
+  }
+
+  /* ---------- Pages ---------- */
+  .page{display:none;}
+  .page.active{display:block;}
+
   .hero{
-    min-height:100vh;
+    min-height:calc(100vh - 64px);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -165,6 +205,7 @@
     text-align:left;
     color:#1a2e4f;
     margin-bottom:14px;
+    white-space:pre-line;
   }
   .signature{
     font-family:'Caveat', cursive;
@@ -189,6 +230,7 @@
     align-items:center;
     justify-content:center;
     border:2px dashed #aac8ee;
+    cursor:pointer;
   }
   .gallery .photo img{
     width:100%;
@@ -203,36 +245,124 @@
     padding:10px;
   }
 
-  /* Music control */
-  .music-bar{
+  /* Lightbox */
+  .lightbox{
     position:fixed;
-    bottom:18px;
-    right:18px;
-    z-index:50;
-    background:rgba(255,255,255,0.9);
-    border-radius:50px;
-    padding:10px 16px;
+    inset:0;
+    background:rgba(5,15,40,0.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .lightbox.show{display:flex;}
+  .lightbox img{
+    max-width:100%;
+    max-height:90vh;
+    border-radius:14px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:20px;
+    right:24px;
+    background:rgba(255,255,255,0.15);
+    color:white;
+    border:none;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-size:1.3rem;
+    cursor:pointer;
+  }
+
+  /* ---------- Music Page ---------- */
+  .music-page-card{
+    background:var(--cream);
+    border-radius:28px;
+    max-width:480px;
+    width:100%;
+    margin:30px auto;
+    padding:36px 28px;
+    box-shadow:0 20px 50px rgba(0,30,80,0.25);
+  }
+  .music-art{
+    width:160px;
+    height:160px;
+    margin:0 auto 18px;
+    border-radius:20px;
+    background:linear-gradient(135deg, var(--sky-mid), var(--sky-deep));
     display:flex;
     align-items:center;
-    gap:10px;
-    box-shadow:0 8px 24px rgba(0,30,80,0.25);
-    font-size:0.85rem;
+    justify-content:center;
+    font-size:3rem;
+    box-shadow:0 10px 30px rgba(11,61,145,0.35);
+    animation:spin-slow 14s linear infinite paused;
+  }
+  .music-art.playing{animation-play-state:running;}
+  .now-playing-title{
+    font-family:'Caveat', cursive;
+    font-size:1.9rem;
     color:var(--sky-deep);
   }
-  .music-bar button{
+  .now-playing-sub{
+    font-size:0.85rem;
+    color:#7e9cc9;
+    margin-bottom:20px;
+  }
+  .player-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-bottom:22px;
+  }
+  .player-controls button{
     border:none;
     background:var(--sky-mid);
     color:white;
-    width:34px;
-    height:34px;
     border-radius:50%;
     cursor:pointer;
-    font-size:1rem;
     display:flex;
     align-items:center;
     justify-content:center;
   }
-  .music-bar button:hover{background:var(--sky-deep);}
+  .player-controls .play-btn{
+    width:62px;
+    height:62px;
+    font-size:1.5rem;
+    background:var(--sky-deep);
+  }
+  .player-controls .skip-btn{
+    width:44px;
+    height:44px;
+    font-size:1.1rem;
+  }
+  .player-controls button:hover{background:#06296b;}
+
+  .playlist{
+    list-style:none;
+    text-align:left;
+    border-top:1px solid #e3ecf9;
+    padding-top:14px;
+  }
+  .playlist li{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 8px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:0.95rem;
+    color:#1a2e4f;
+  }
+  .playlist li:hover{background:#eef4ff;}
+  .playlist li.active{
+    background:var(--sky-mid);
+    color:white;
+  }
+  .playlist li .track-icon{font-size:1rem;}
 
   footer{
     text-align:center;
@@ -245,4 +375,6 @@
   @media (max-width:480px){
     .timer .box{min-width:64px; padding:14px 10px;}
     .timer .num{font-size:1.6rem;}
+    .navbar{gap:2px;}
+    .navbar button{padding:8px 12px;font-size:0.85rem;}
   }
